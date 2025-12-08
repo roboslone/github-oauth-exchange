@@ -17,6 +17,11 @@
         }
     },
     "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker": {
+            "version": "latest",
+            "dockerComposeVersion": "2",
+            "moby": false
+        },
         "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {},
         "ghcr.io/devcontainers/features/go:1": {},
         "ghcr.io/roboslone/go-framework/fexec:1": {},

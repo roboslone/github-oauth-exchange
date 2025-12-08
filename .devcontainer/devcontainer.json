@@ -1,0 +1,27 @@
+{
+    "name": "github-oauth-exchange",
+    "dockerComposeFile": "compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "remoteUser": "root",
+    "forwardPorts": [
+        8080
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "bufbuild.vscode-buf",
+                "golang.go",
+                "MartyBeGood.single-editor-tabs"
+            ]
+        }
+    },
+    "features": {
+        "ghcr.io/nils-geistmann/devcontainers-features/zsh:0": {},
+        "ghcr.io/devcontainers/features/go:1": {},
+        "ghcr.io/roboslone/go-framework/fexec:1": {},
+        "ghcr.io/mrsimonemms/devcontainers/buf:1": {},
+        "ghcr.io/schlich/devcontainer-features/powerlevel10k:1": {},
+        "ghcr.io/devcontainers-extra/features/fzf:1": {}
+    }
+}

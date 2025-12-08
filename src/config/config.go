@@ -29,7 +29,6 @@ type Server struct {
 }
 
 type GitHubApplication struct {
-	Name         string
 	ClientID     string
 	ClientSecret string
 }
@@ -66,7 +65,7 @@ func New(opts ...InitOption) (*Config, error) {
 		if err != nil {
 			return nil, fmt.Errorf("parsing application #%d: %q: %w", n+1, s, err)
 		}
-		cfg.GitHub.Index[app.Name] = app
+		cfg.GitHub.Index[app.ClientID] = app
 	}
 
 	return &cfg, nil
@@ -74,19 +73,15 @@ func New(opts ...InitOption) (*Config, error) {
 
 func parseApp(s string) (GitHubApplication, error) {
 	parts := strings.Split(s, ":")
-	if len(parts) != 3 {
-		return GitHubApplication{}, fmt.Errorf("invalid format, expected {name}:{client_id}:{client_secret}")
+	if len(parts) != 2 {
+		return GitHubApplication{}, fmt.Errorf("invalid format, expected {client_id}:{client_secret}")
 	}
 
 	app := GitHubApplication{
-		Name:         strings.TrimSpace(parts[0]),
-		ClientID:     strings.TrimSpace(parts[1]),
-		ClientSecret: strings.TrimSpace(parts[2]),
+		ClientID:     strings.TrimSpace(parts[0]),
+		ClientSecret: strings.TrimSpace(parts[1]),
 	}
 
-	if app.Name == "" {
-		return app, fmt.Errorf("name is empty")
-	}
 	if app.ClientID == "" {
 		return app, fmt.Errorf("client_id is empty")
 	}

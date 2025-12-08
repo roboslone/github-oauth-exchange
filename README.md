@@ -4,7 +4,7 @@ This is a simple server capable of exchanging GitHub authorization codes for acc
 `GITHUB__APPLICATIONS` environment variable is used to configure supported applications:
 
 ```sh
-export GITHUB__APPLICATIONS='<name>:<client_id>:<client_secret>
+export GITHUB__APPLICATIONS='<client_id>:<client_secret>'
 ```
 
 Server address is configured via `SERVER__ADDRESS` and defaults to `:8080`.
@@ -20,6 +20,6 @@ Codes then can be exchanged like so:
 ```sh
 curl http://localhost:8080/github.v1.ExchangeService/Exchange \
     -H 'content-type: application/json' \
-    -d '{"app_name": "into-the-void", "code": "..."}'
+    -d '{"client_id": "...", "code": "..."}'
 # {"accessToken":{"value":"***","expiresIn":"28800s"},"refreshToken":{"value":"***","expiresIn":"15724800s"},"tokenType":"bearer"}
 ```

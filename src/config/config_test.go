@@ -12,7 +12,7 @@ func TestConfig(t *testing.T) {
 	cfg, err := config.New(
 		config.WithEnvOptions(&env.Options{
 			Environment: map[string]string{
-				"GITHUB__APPLICATIONS": "a:ai:as,b:bi:bs",
+				"GITHUB__APPLICATIONS": "ai:as,bi:bs",
 			},
 		}),
 	)
@@ -21,8 +21,8 @@ func TestConfig(t *testing.T) {
 	require.Equal(
 		t,
 		map[string]config.GitHubApplication{
-			"a": {Name: "a", ClientID: "ai", ClientSecret: "as"},
-			"b": {Name: "b", ClientID: "bi", ClientSecret: "bs"},
+			"ai": {ClientID: "ai", ClientSecret: "as"},
+			"bi": {ClientID: "bi", ClientSecret: "bs"},
 		},
 		cfg.GitHub.Index,
 	)

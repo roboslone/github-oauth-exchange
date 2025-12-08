@@ -22,8 +22,8 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("available applications (%d):\n", len(cfg.GitHub.Index))
-	for _, name := range slices.Sorted(maps.Keys(cfg.GitHub.Index)) {
-		fmt.Printf("\t%q\n", name)
+	for _, id := range slices.Sorted(maps.Keys(cfg.GitHub.Index)) {
+		fmt.Printf("\t%q\n", id)
 	}
 
 	mux := http.NewServeMux()

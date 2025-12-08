@@ -21,11 +21,11 @@ func New(cfg *config.Config) *Service {
 }
 
 func (s *Service) Exchange(ctx context.Context, request *connect.Request[githubv1.ExchangeRequest]) (*connect.Response[githubv1.ExchangeResponse], error) {
-	app, ok := s.cfg.GitHub.Index[request.Msg.AppName]
+	app, ok := s.cfg.GitHub.Index[request.Msg.ClientId]
 	if !ok {
 		return nil, connect.NewError(
 			connect.CodeNotFound,
-			errors.New(request.Msg.AppName),
+			errors.New(request.Msg.ClientId),
 		)
 	}
 

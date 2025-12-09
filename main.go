@@ -22,6 +22,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	if len(cfg.Server.AllowedOrigins) > 0 {
+		fmt.Printf("allowed origins (%d):\n", len(cfg.Server.AllowedOrigins))
+	}
+	for _, o := range cfg.Server.AllowedOrigins {
+		fmt.Printf("\t%q\n", o)
+	}
+
 	fmt.Printf("available applications (%d):\n", len(cfg.GitHub.Index))
 	for _, id := range slices.Sorted(maps.Keys(cfg.GitHub.Index)) {
 		fmt.Printf("\t%q\n", id)

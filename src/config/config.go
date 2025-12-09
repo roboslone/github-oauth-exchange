@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 
 	env "github.com/caarlos0/env/v11"
@@ -68,6 +69,8 @@ func New(opts ...InitOption) (*Config, error) {
 		}
 		cfg.GitHub.Index[app.ClientID] = app
 	}
+
+	slices.Sort(cfg.Server.AllowedOrigins)
 
 	return &cfg, nil
 }

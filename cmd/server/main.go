@@ -63,9 +63,10 @@ func main() {
 
 func addCORS(cfg *service.Config, handler http.Handler) http.Handler {
 	return cors.New(cors.Options{
-		AllowedOrigins: cfg.Server.AllowedOrigins,
-		AllowedMethods: connectcors.AllowedMethods(),
-		AllowedHeaders: connectcors.AllowedHeaders(),
-		ExposedHeaders: connectcors.ExposedHeaders(),
+		AllowedOrigins:   cfg.Server.AllowedOrigins,
+		AllowedMethods:   connectcors.AllowedMethods(),
+		AllowedHeaders:   connectcors.AllowedHeaders(),
+		ExposedHeaders:   connectcors.ExposedHeaders(),
+		AllowCredentials: true,
 	}).Handler(handler)
 }

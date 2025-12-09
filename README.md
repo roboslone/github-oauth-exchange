@@ -18,14 +18,22 @@ export SERVER__ALLOWED_ORIGINS='example.com,whatever.org'
 Run using Docker image:
 
 ```sh
-docker run -p 8080:8080 -e "GITHUB__APPLICATIONS=..." ghcr.io/roboslone/github-oauth-exchange:main
+docker run \
+    -d \                                            # run in background
+    -p 11275:8080 \                                 # expose port 11275 to host
+    -e 'GITHUB__APPLICATIONS=...' \                 # github apps
+    -e 'SERVER__ALLOWED_ORIGINS=...' \              # allowed origins for CORS 
+    ghcr.io/roboslone/github-oauth-exchange:main
 ```
 
 Codes then can be exchanged like so:
 
 ```sh
-curl http://localhost:8080/github.v1.ExchangeService/Exchange \
+curl http://localhost:11275/github.v1.ExchangeService/Exchange \
     -H 'content-type: application/json' \
     -d '{"client_id": "...", "code": "..."}'
 # {"accessToken":{"value":"***","expiresIn":"28800s"},"refreshToken":{"value":"***","expiresIn":"15724800s"},"tokenType":"bearer"}
 ```
+
+Server then can be exposed to the internet via TLS-terminating proxy, e.g. nginx.  
+Don't expose unencrypted HTTP server, this will leak GitHub tokens.

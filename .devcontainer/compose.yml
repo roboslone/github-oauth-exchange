@@ -13,3 +13,4 @@ services:
             - .zshrc:/root/.zshrc:cached
             - ~/.netrc:/root/.netrc:cached
             - ~/.config:/root/.config:cached
+            - ~/.ssh:/root/.ssh

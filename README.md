@@ -35,5 +35,8 @@ curl http://localhost:11275/github.v1.ExchangeService/Exchange \
 # {"accessToken":{"value":"***","expiresIn":"28800s"},"refreshToken":{"value":"***","expiresIn":"15724800s"},"tokenType":"bearer"}
 ```
 
+gRPC service is available on the same port, check out [Buf Studio](https://buf.build/studio/roboslone-oauth/github/github.v1.ExchangeService/Exchange).  
+`https://buf.build` has to be in `SERVER__ALLOWED_ORIGINS`.
+
 Server then can be exposed to the internet via TLS-terminating proxy, e.g. nginx.  
 Don't expose unencrypted HTTP server, this will leak GitHub tokens.

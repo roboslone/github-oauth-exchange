@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	githubv1 "github.com/roboslone/github-oauth-exchange-proto/github/v1"
+	githubv1 "github.com/roboslone/github-oauth-exchange/proto/github/v1"
 	"google.golang.org/protobuf/types/known/durationpb"
 )
 

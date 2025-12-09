@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package github.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/roboslone/github-oauth-exchange-proto;githubv1";
+
+message Token {
+  string value = 1;
+  google.protobuf.Duration expires_in = 2;
+}
+
+message Account {
+  message URLs {
+    string avatar = 1;
+    string api = 2;
+    string html = 3;
+    string followers = 4;
+    string following = 5;
+    string gists = 6;
+    string starred = 7;
+    string subscriptions = 8;
+    string organizations = 9;
+    string repos = 10;
+    string events = 11;
+    string received_events = 12;
+  }
+
+  string login = 1;
+  uint32 id = 2;
+  string node_id = 3;
+  string gravatar_id = 4;
+  URLs urls = 5;
+  string type = 6;
+  string user_view_type = 7;
+  bool site_admin = 8;
+  string name = 9;
+  // company
+  string blog = 11;
+  // location
+  string email = 13;
+  // hireable
+  // bio
+  // twitter_username
+  string notification_email = 17;
+  uint32 public_repos = 18;
+  uint32 public_gists = 19;
+  uint32 followers = 20;
+  uint32 following = 21;
+  google.protobuf.Timestamp created_at = 22;
+  google.protobuf.Timestamp updated_at = 23;
+}
+
+message ExchangeRequest {
+  string client_id = 1 [(buf.validate.field).required = true];
+  string code = 2 [(buf.validate.field).required = true];
+
+  // If set, resulting access token will also be resolved to an `Account`.
+  bool resolve = 3;
+}
+
+message ExchangeResponse {
+  Token access_token = 1;
+  Token refresh_token = 2;
+  string token_type = 3;
+  string scope = 4;
+
+  // Only set if `ExchangeRequest.resolve` is true.
+  Account account = 5;
+}
+
+message ResolveRequest {
+  string access_token = 1;
+}
+
+message ResolveResponse {
+  Account account = 2;
+}
+
+service ExchangeService {
+  rpc Exchange(ExchangeRequest) returns (ExchangeResponse);
+  rpc Resolve(ResolveRequest) returns (ResolveResponse);
+}

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/roboslone/github-oauth-exchange/github"
+	"github.com/roboslone/github-oauth-exchange/src/github"
 	"github.com/stretchr/testify/require"
 )
 

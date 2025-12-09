@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	"connectrpc.com/connect"
-	githubv1 "github.com/roboslone/github-oauth-exchange-proto/github/v1"
-	"github.com/roboslone/github-oauth-exchange-proto/github/v1/githubv1connect"
-	"github.com/roboslone/github-oauth-exchange/github"
+	githubv1 "github.com/roboslone/github-oauth-exchange/proto/github/v1"
+	"github.com/roboslone/github-oauth-exchange/proto/github/v1/githubv1connect"
+	"github.com/roboslone/github-oauth-exchange/src/github"
 )
 
 var (

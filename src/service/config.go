@@ -5,7 +5,7 @@ import (
 	"slices"
 
 	env "github.com/caarlos0/env/v11"
-	"github.com/roboslone/github-oauth-exchange/github"
+	"github.com/roboslone/github-oauth-exchange/src/github"
 )
 
 type InitOptions struct {

@@ -1,0 +1,13 @@
+version: v2
+modules:
+  - path: proto/src
+    name: buf.build/roboslone-oauth/github
+deps:
+  - buf.build/bufbuild/protovalidate
+  - buf.build/protocolbuffers/wellknowntypes
+lint:
+  use:
+    - STANDARD
+breaking:
+  use:
+    - FILE

@@ -4,7 +4,6 @@ go 1.25.4
 
 require (
 	github.com/caarlos0/env/v11 v11.3.1
-	github.com/roboslone/github-oauth-exchange-proto v1.1.1
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -21,7 +20,7 @@ require (
 )
 
 require (
-	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20250912141014-52f32327d4b0.1 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.10-20250912141014-52f32327d4b0.1
 	connectrpc.com/connect v1.19.1
 	connectrpc.com/cors v0.1.0
 	connectrpc.com/validate v0.6.0

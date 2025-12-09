@@ -11,8 +11,8 @@ import (
 	"connectrpc.com/connect"
 	connectcors "connectrpc.com/cors"
 	"connectrpc.com/validate"
-	"github.com/roboslone/github-oauth-exchange-proto/github/v1/githubv1connect"
-	"github.com/roboslone/github-oauth-exchange/service"
+	"github.com/roboslone/github-oauth-exchange/proto/github/v1/githubv1connect"
+	"github.com/roboslone/github-oauth-exchange/src/service"
 	"github.com/rs/cors"
 )
 

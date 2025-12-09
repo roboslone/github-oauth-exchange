@@ -4,7 +4,7 @@ go 1.25.4
 
 require (
 	github.com/caarlos0/env/v11 v11.3.1
-	github.com/roboslone/github-oauth-exchange-proto v1.0.0
+	github.com/roboslone/github-oauth-exchange-proto v1.1.1
 	github.com/stretchr/testify v1.11.1
 )
 

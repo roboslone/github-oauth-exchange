@@ -31,6 +31,10 @@ github.com/roboslone/github-oauth-exchange-proto v0.0.0-20251209135544-3da771385
 github.com/roboslone/github-oauth-exchange-proto v0.0.0-20251209135544-3da771385e51/go.mod h1:Lw6D7ZW8JcMFc6tbDlWgfe0klpElruEPT1wLnGGgVqQ=
 github.com/roboslone/github-oauth-exchange-proto v1.0.0 h1:5HP6QQRX/NQUZtz15pwWkKqHFDs9cTznGs2fKCyVry4=
 github.com/roboslone/github-oauth-exchange-proto v1.0.0/go.mod h1:Lw6D7ZW8JcMFc6tbDlWgfe0klpElruEPT1wLnGGgVqQ=
+github.com/roboslone/github-oauth-exchange-proto v1.1.0 h1:yf9PbzhAePoKSTFHHVdkMpLgXlH6A9rYePMwSGaOo/I=
+github.com/roboslone/github-oauth-exchange-proto v1.1.0/go.mod h1:Lw6D7ZW8JcMFc6tbDlWgfe0klpElruEPT1wLnGGgVqQ=
+github.com/roboslone/github-oauth-exchange-proto v1.1.1 h1:jGCd7VBpUYLjoI0Tb1fJo3us64seuHIGYqYo+lqRxXc=
+github.com/roboslone/github-oauth-exchange-proto v1.1.1/go.mod h1:Lw6D7ZW8JcMFc6tbDlWgfe0klpElruEPT1wLnGGgVqQ=
 github.com/rs/cors v1.11.1 h1:eU3gRzXLRK57F5rKMGMZURNdIG4EoAmX8k94r9wXWHA=
 github.com/rs/cors v1.11.1/go.mod h1:XyqrcTp5zjWr1wsJ8PIRZssZ8b/WMcMf71DJnit4EMU=
 github.com/stoewer/go-strcase v1.3.1 h1:iS0MdW+kVTxgMoE1LAZyMiYJFKlOzLooE4MxjirtkAs=

@@ -12,13 +12,12 @@ import (
 	connectcors "connectrpc.com/cors"
 	"connectrpc.com/validate"
 	"github.com/roboslone/github-oauth-exchange-proto/github/v1/githubv1connect"
-	"github.com/roboslone/github-oauth-exchange/src/config"
-	"github.com/roboslone/github-oauth-exchange/src/service"
+	"github.com/roboslone/github-oauth-exchange/service"
 	"github.com/rs/cors"
 )
 
 func main() {
-	cfg, err := config.New()
+	cfg, err := service.NewConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +61,7 @@ func main() {
 	}
 }
 
-func addCORS(cfg *config.Config, handler http.Handler) http.Handler {
+func addCORS(cfg *service.Config, handler http.Handler) http.Handler {
 	return cors.New(cors.Options{
 		AllowedOrigins: cfg.Server.AllowedOrigins,
 		AllowedMethods: connectcors.AllowedMethods(),

@@ -1,4 +1,4 @@
-package service
+package github
 
 import (
 	"context"
@@ -10,17 +10,16 @@ import (
 	"time"
 
 	githubv1 "github.com/roboslone/github-oauth-exchange-proto/github/v1"
-	"github.com/roboslone/github-oauth-exchange/src/config"
 	"google.golang.org/protobuf/types/known/durationpb"
 )
 
-type GitHubExchangeRequest struct {
+type RawExchangeRequest struct {
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
 	Code         string `json:"code"`
 }
 
-type GitHubExchangeResponse struct {
+type RawExchangeResponse struct {
 	Status                int
 	Error                 string `json:"error"`
 	AccessToken           string `json:"access_token"`
@@ -31,7 +30,7 @@ type GitHubExchangeResponse struct {
 	Scope                 string `json:"scope"`
 }
 
-func (r *GitHubExchangeResponse) ToProto() *githubv1.ExchangeResponse {
+func (r *RawExchangeResponse) ToProto() *githubv1.ExchangeResponse {
 	return &githubv1.ExchangeResponse{
 		AccessToken: &githubv1.Token{
 			Value:     r.AccessToken,
@@ -46,8 +45,8 @@ func (r *GitHubExchangeResponse) ToProto() *githubv1.ExchangeResponse {
 	}
 }
 
-func ExchangeCode(ctx context.Context, app config.GitHubApplication, code string) (*githubv1.ExchangeResponse, error) {
-	data, err := json.Marshal(GitHubExchangeRequest{
+func ExchangeCode(ctx context.Context, app Application, code string) (*githubv1.ExchangeResponse, error) {
+	data, err := json.Marshal(RawExchangeRequest{
 		ClientID:     app.ClientID,
 		ClientSecret: app.ClientSecret,
 		Code:         code,
@@ -80,7 +79,7 @@ func ExchangeCode(ctx context.Context, app config.GitHubApplication, code string
 		return nil, fmt.Errorf("reading response body: %w", err)
 	}
 
-	var result GitHubExchangeResponse
+	var result RawExchangeResponse
 	if err := json.Unmarshal(body, &result); err != nil {
 		return nil, fmt.Errorf("unmarshalling response: %w", err)
 	}

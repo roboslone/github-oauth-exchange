@@ -1,11 +1,11 @@
-package config
+package service
 
 import (
 	"fmt"
 	"slices"
-	"strings"
 
 	env "github.com/caarlos0/env/v11"
+	"github.com/roboslone/github-oauth-exchange/github"
 )
 
 type InitOptions struct {
@@ -30,17 +30,12 @@ type Server struct {
 	AllowedOrigins []string `env:"ALLOWED_ORIGINS"`
 }
 
-type GitHubApplication struct {
-	ClientID     string
-	ClientSecret string
-}
-
 type GitHub struct {
-	Applications []string `env:"APPLICATIONS"`
-	Index        map[string]GitHubApplication
+	RawApplications []string `env:"APPLICATIONS"`
+	Index           map[string]github.Application
 }
 
-func New(opts ...InitOption) (*Config, error) {
+func NewConfig(opts ...InitOption) (*Config, error) {
 	o := &InitOptions{}
 	for _, opt := range opts {
 		opt(o)
@@ -57,13 +52,13 @@ func New(opts ...InitOption) (*Config, error) {
 		return nil, err
 	}
 
-	if len(cfg.GitHub.Applications) == 0 {
+	if len(cfg.GitHub.RawApplications) == 0 {
 		return nil, fmt.Errorf("at least one GitHub application is required (GITHUB__APPLICATIONS)")
 	}
 
-	cfg.GitHub.Index = make(map[string]GitHubApplication, len(cfg.GitHub.Applications))
-	for n, s := range cfg.GitHub.Applications {
-		app, err := parseApp(s)
+	cfg.GitHub.Index = make(map[string]github.Application, len(cfg.GitHub.RawApplications))
+	for n, s := range cfg.GitHub.RawApplications {
+		app, err := github.ApplicationFromString(s)
 		if err != nil {
 			return nil, fmt.Errorf("parsing application #%d: %q: %w", n+1, s, err)
 		}
@@ -73,25 +68,4 @@ func New(opts ...InitOption) (*Config, error) {
 	slices.Sort(cfg.Server.AllowedOrigins)
 
 	return &cfg, nil
-}
-
-func parseApp(s string) (GitHubApplication, error) {
-	parts := strings.Split(s, ":")
-	if len(parts) != 2 {
-		return GitHubApplication{}, fmt.Errorf("invalid format, expected {client_id}:{client_secret}")
-	}
-
-	app := GitHubApplication{
-		ClientID:     strings.TrimSpace(parts[0]),
-		ClientSecret: strings.TrimSpace(parts[1]),
-	}
-
-	if app.ClientID == "" {
-		return app, fmt.Errorf("client_id is empty")
-	}
-	if app.ClientSecret == "" {
-		return app, fmt.Errorf("client_secret is empty")
-	}
-
-	return app, nil
 }

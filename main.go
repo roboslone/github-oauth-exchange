@@ -8,12 +8,13 @@ import (
 	"net/http"
 	"slices"
 
-	"connectrpc.com/validate"
-
 	"connectrpc.com/connect"
+	connectcors "connectrpc.com/cors"
+	"connectrpc.com/validate"
 	"github.com/roboslone/github-oauth-exchange-proto/github/v1/githubv1connect"
 	"github.com/roboslone/github-oauth-exchange/src/config"
 	"github.com/roboslone/github-oauth-exchange/src/service"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -34,7 +35,7 @@ func main() {
 			validate.NewInterceptor(),
 		),
 	)
-	mux.Handle(path, handler)
+	mux.Handle(path, addCORS(cfg, handler))
 
 	p := new(http.Protocols)
 	p.SetHTTP1(true)
@@ -51,4 +52,13 @@ func main() {
 	if err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal(err)
 	}
+}
+
+func addCORS(cfg *config.Config, handler http.Handler) http.Handler {
+	return cors.New(cors.Options{
+		AllowedOrigins: cfg.Server.AllowedOrigins,
+		AllowedMethods: connectcors.AllowedMethods(),
+		AllowedHeaders: connectcors.AllowedHeaders(),
+		ExposedHeaders: connectcors.ExposedHeaders(),
+	}).Handler(handler)
 }

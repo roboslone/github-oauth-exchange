@@ -25,7 +25,8 @@ type Config struct {
 }
 
 type Server struct {
-	Address string `env:"ADDRESS" envDefault:":8080"`
+	Address        string   `env:"ADDRESS" envDefault:":8080"`
+	AllowedOrigins []string `env:"ALLOWED_ORIGINS"`
 }
 
 type GitHubApplication struct {

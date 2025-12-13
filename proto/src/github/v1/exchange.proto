@@ -82,6 +82,7 @@ message RefreshRequest {
 
 message RefreshResponse {
   Token access_token = 1;
+  Token refresh_token = 4;
   string token_type = 2;
   string scope = 3;
 

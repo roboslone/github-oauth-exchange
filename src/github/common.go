@@ -45,6 +45,10 @@ func (r *RawTokenResponse) ToRefreshResponse() *githubv1.RefreshResponse {
 			Value:     r.AccessToken,
 			ExpiresIn: durationpb.New(time.Second * time.Duration(r.ExpiresIn)),
 		},
+		RefreshToken: &githubv1.Token{
+			Value:     r.RefreshToken,
+			ExpiresIn: durationpb.New(time.Second * time.Duration(r.RefreshTokenExpiresIn)),
+		},
 		TokenType: r.TokenType,
 		Scope:     r.Scope,
 	}

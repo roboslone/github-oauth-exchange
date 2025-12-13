@@ -461,10 +461,11 @@ func (x *RefreshRequest) GetResolve() bool {
 }
 
 type RefreshResponse struct {
-	state       protoimpl.MessageState `protogen:"open.v1"`
-	AccessToken *Token                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
-	TokenType   string                 `protobuf:"bytes,2,opt,name=token_type,json=tokenType,proto3" json:"token_type,omitempty"`
-	Scope       string                 `protobuf:"bytes,3,opt,name=scope,proto3" json:"scope,omitempty"`
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	AccessToken  *Token                 `protobuf:"bytes,1,opt,name=access_token,json=accessToken,proto3" json:"access_token,omitempty"`
+	RefreshToken *Token                 `protobuf:"bytes,4,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
+	TokenType    string                 `protobuf:"bytes,2,opt,name=token_type,json=tokenType,proto3" json:"token_type,omitempty"`
+	Scope        string                 `protobuf:"bytes,3,opt,name=scope,proto3" json:"scope,omitempty"`
 	// Only set if `RefreshRequest.resolve` is true.
 	Account       *Account `protobuf:"bytes,5,opt,name=account,proto3" json:"account,omitempty"`
 	unknownFields protoimpl.UnknownFields
@@ -504,6 +505,13 @@ func (*RefreshResponse) Descriptor() ([]byte, []int) {
 func (x *RefreshResponse) GetAccessToken() *Token {
 	if x != nil {
 		return x.AccessToken
+	}
+	return nil
+}
+
+func (x *RefreshResponse) GetRefreshToken() *Token {
+	if x != nil {
+		return x.RefreshToken
 	}
 	return nil
 }
@@ -809,9 +817,10 @@ const file_github_v1_exchange_proto_rawDesc = "" +
 	"\x0eRefreshRequest\x12#\n" +
 	"\tclient_id\x18\x01 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\bclientId\x12+\n" +
 	"\rrefresh_token\x18\x02 \x01(\tB\x06\xbaH\x03\xc8\x01\x01R\frefreshToken\x12\x18\n" +
-	"\aresolve\x18\x03 \x01(\bR\aresolve\"\xa9\x01\n" +
+	"\aresolve\x18\x03 \x01(\bR\aresolve\"\xe0\x01\n" +
 	"\x0fRefreshResponse\x123\n" +
-	"\faccess_token\x18\x01 \x01(\v2\x10.github.v1.TokenR\vaccessToken\x12\x1d\n" +
+	"\faccess_token\x18\x01 \x01(\v2\x10.github.v1.TokenR\vaccessToken\x125\n" +
+	"\rrefresh_token\x18\x04 \x01(\v2\x10.github.v1.TokenR\frefreshToken\x12\x1d\n" +
 	"\n" +
 	"token_type\x18\x02 \x01(\tR\ttokenType\x12\x14\n" +
 	"\x05scope\x18\x03 \x01(\tR\x05scope\x12,\n" +
@@ -862,19 +871,20 @@ var file_github_v1_exchange_proto_depIdxs = []int32{
 	0,  // 5: github.v1.ExchangeResponse.refresh_token:type_name -> github.v1.Token
 	1,  // 6: github.v1.ExchangeResponse.account:type_name -> github.v1.Account
 	0,  // 7: github.v1.RefreshResponse.access_token:type_name -> github.v1.Token
-	1,  // 8: github.v1.RefreshResponse.account:type_name -> github.v1.Account
-	1,  // 9: github.v1.ResolveResponse.account:type_name -> github.v1.Account
-	2,  // 10: github.v1.ExchangeService.Exchange:input_type -> github.v1.ExchangeRequest
-	4,  // 11: github.v1.ExchangeService.Refresh:input_type -> github.v1.RefreshRequest
-	6,  // 12: github.v1.ExchangeService.Resolve:input_type -> github.v1.ResolveRequest
-	3,  // 13: github.v1.ExchangeService.Exchange:output_type -> github.v1.ExchangeResponse
-	5,  // 14: github.v1.ExchangeService.Refresh:output_type -> github.v1.RefreshResponse
-	7,  // 15: github.v1.ExchangeService.Resolve:output_type -> github.v1.ResolveResponse
-	13, // [13:16] is the sub-list for method output_type
-	10, // [10:13] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	0,  // 8: github.v1.RefreshResponse.refresh_token:type_name -> github.v1.Token
+	1,  // 9: github.v1.RefreshResponse.account:type_name -> github.v1.Account
+	1,  // 10: github.v1.ResolveResponse.account:type_name -> github.v1.Account
+	2,  // 11: github.v1.ExchangeService.Exchange:input_type -> github.v1.ExchangeRequest
+	4,  // 12: github.v1.ExchangeService.Refresh:input_type -> github.v1.RefreshRequest
+	6,  // 13: github.v1.ExchangeService.Resolve:input_type -> github.v1.ResolveRequest
+	3,  // 14: github.v1.ExchangeService.Exchange:output_type -> github.v1.ExchangeResponse
+	5,  // 15: github.v1.ExchangeService.Refresh:output_type -> github.v1.RefreshResponse
+	7,  // 16: github.v1.ExchangeService.Resolve:output_type -> github.v1.ResolveResponse
+	14, // [14:17] is the sub-list for method output_type
+	11, // [11:14] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_github_v1_exchange_proto_init() }

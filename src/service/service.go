@@ -49,6 +49,30 @@ func (s *Service) Exchange(ctx context.Context, request *connect.Request[githubv
 	return connect.NewResponse(response), nil
 }
 
+func (s *Service) Refresh(ctx context.Context, request *connect.Request[githubv1.RefreshRequest]) (*connect.Response[githubv1.RefreshResponse], error) {
+	app, ok := s.cfg.GitHub.Index[request.Msg.ClientId]
+	if !ok {
+		return nil, connect.NewError(
+			connect.CodeNotFound,
+			errors.New(request.Msg.ClientId),
+		)
+	}
+
+	response, err := github.RefreshToken(ctx, app, request.Msg.RefreshToken)
+	if err != nil {
+		return nil, err
+	}
+
+	if request.Msg.Resolve {
+		response.Account, err = github.Resolve(ctx, response.GetAccessToken().GetValue())
+		if err != nil {
+			return nil, fmt.Errorf("resolving access token: %w", err)
+		}
+	}
+
+	return connect.NewResponse(response), nil
+}
+
 func (s *Service) Resolve(ctx context.Context, request *connect.Request[githubv1.ResolveRequest]) (*connect.Response[githubv1.ResolveResponse], error) {
 	if request.Msg.AccessToken == "" {
 		return nil, ErrAccessTokenNotProvided

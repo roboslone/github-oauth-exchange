@@ -72,6 +72,23 @@ message ExchangeResponse {
   Account account = 5;
 }
 
+message RefreshRequest {
+  string client_id = 1 [(buf.validate.field).required = true];
+  string refresh_token = 2 [(buf.validate.field).required = true];
+
+  // If set, resulting access token will also be resolved to an `Account`.
+  bool resolve = 3;
+}
+
+message RefreshResponse {
+  Token access_token = 1;
+  string token_type = 2;
+  string scope = 3;
+
+  // Only set if `RefreshRequest.resolve` is true.
+  Account account = 5;
+}
+
 message ResolveRequest {
   string access_token = 1;
 }
@@ -82,5 +99,6 @@ message ResolveResponse {
 
 service ExchangeService {
   rpc Exchange(ExchangeRequest) returns (ExchangeResponse);
+  rpc Refresh(RefreshRequest) returns (RefreshResponse);
   rpc Resolve(ResolveRequest) returns (ResolveResponse);
 }

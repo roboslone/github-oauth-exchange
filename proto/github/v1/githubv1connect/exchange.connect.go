@@ -36,6 +36,8 @@ const (
 	// ExchangeServiceExchangeProcedure is the fully-qualified name of the ExchangeService's Exchange
 	// RPC.
 	ExchangeServiceExchangeProcedure = "/github.v1.ExchangeService/Exchange"
+	// ExchangeServiceRefreshProcedure is the fully-qualified name of the ExchangeService's Refresh RPC.
+	ExchangeServiceRefreshProcedure = "/github.v1.ExchangeService/Refresh"
 	// ExchangeServiceResolveProcedure is the fully-qualified name of the ExchangeService's Resolve RPC.
 	ExchangeServiceResolveProcedure = "/github.v1.ExchangeService/Resolve"
 )
@@ -43,6 +45,7 @@ const (
 // ExchangeServiceClient is a client for the github.v1.ExchangeService service.
 type ExchangeServiceClient interface {
 	Exchange(context.Context, *connect.Request[v1.ExchangeRequest]) (*connect.Response[v1.ExchangeResponse], error)
+	Refresh(context.Context, *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error)
 	Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error)
 }
 
@@ -63,6 +66,12 @@ func NewExchangeServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(exchangeServiceMethods.ByName("Exchange")),
 			connect.WithClientOptions(opts...),
 		),
+		refresh: connect.NewClient[v1.RefreshRequest, v1.RefreshResponse](
+			httpClient,
+			baseURL+ExchangeServiceRefreshProcedure,
+			connect.WithSchema(exchangeServiceMethods.ByName("Refresh")),
+			connect.WithClientOptions(opts...),
+		),
 		resolve: connect.NewClient[v1.ResolveRequest, v1.ResolveResponse](
 			httpClient,
 			baseURL+ExchangeServiceResolveProcedure,
@@ -75,12 +84,18 @@ func NewExchangeServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 // exchangeServiceClient implements ExchangeServiceClient.
 type exchangeServiceClient struct {
 	exchange *connect.Client[v1.ExchangeRequest, v1.ExchangeResponse]
+	refresh  *connect.Client[v1.RefreshRequest, v1.RefreshResponse]
 	resolve  *connect.Client[v1.ResolveRequest, v1.ResolveResponse]
 }
 
 // Exchange calls github.v1.ExchangeService.Exchange.
 func (c *exchangeServiceClient) Exchange(ctx context.Context, req *connect.Request[v1.ExchangeRequest]) (*connect.Response[v1.ExchangeResponse], error) {
 	return c.exchange.CallUnary(ctx, req)
+}
+
+// Refresh calls github.v1.ExchangeService.Refresh.
+func (c *exchangeServiceClient) Refresh(ctx context.Context, req *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error) {
+	return c.refresh.CallUnary(ctx, req)
 }
 
 // Resolve calls github.v1.ExchangeService.Resolve.
@@ -91,6 +106,7 @@ func (c *exchangeServiceClient) Resolve(ctx context.Context, req *connect.Reques
 // ExchangeServiceHandler is an implementation of the github.v1.ExchangeService service.
 type ExchangeServiceHandler interface {
 	Exchange(context.Context, *connect.Request[v1.ExchangeRequest]) (*connect.Response[v1.ExchangeResponse], error)
+	Refresh(context.Context, *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error)
 	Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error)
 }
 
@@ -107,6 +123,12 @@ func NewExchangeServiceHandler(svc ExchangeServiceHandler, opts ...connect.Handl
 		connect.WithSchema(exchangeServiceMethods.ByName("Exchange")),
 		connect.WithHandlerOptions(opts...),
 	)
+	exchangeServiceRefreshHandler := connect.NewUnaryHandler(
+		ExchangeServiceRefreshProcedure,
+		svc.Refresh,
+		connect.WithSchema(exchangeServiceMethods.ByName("Refresh")),
+		connect.WithHandlerOptions(opts...),
+	)
 	exchangeServiceResolveHandler := connect.NewUnaryHandler(
 		ExchangeServiceResolveProcedure,
 		svc.Resolve,
@@ -117,6 +139,8 @@ func NewExchangeServiceHandler(svc ExchangeServiceHandler, opts ...connect.Handl
 		switch r.URL.Path {
 		case ExchangeServiceExchangeProcedure:
 			exchangeServiceExchangeHandler.ServeHTTP(w, r)
+		case ExchangeServiceRefreshProcedure:
+			exchangeServiceRefreshHandler.ServeHTTP(w, r)
 		case ExchangeServiceResolveProcedure:
 			exchangeServiceResolveHandler.ServeHTTP(w, r)
 		default:
@@ -130,6 +154,10 @@ type UnimplementedExchangeServiceHandler struct{}
 
 func (UnimplementedExchangeServiceHandler) Exchange(context.Context, *connect.Request[v1.ExchangeRequest]) (*connect.Response[v1.ExchangeResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("github.v1.ExchangeService.Exchange is not implemented"))
+}
+
+func (UnimplementedExchangeServiceHandler) Refresh(context.Context, *connect.Request[v1.RefreshRequest]) (*connect.Response[v1.RefreshResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("github.v1.ExchangeService.Refresh is not implemented"))
 }
 
 func (UnimplementedExchangeServiceHandler) Resolve(context.Context, *connect.Request[v1.ResolveRequest]) (*connect.Response[v1.ResolveResponse], error) {
